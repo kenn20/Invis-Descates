@@ -1,0 +1,9 @@
+{
+  "id": "invisible-ai-companion",
+  "name": "Invisible AI Companion",
+  "version": "0.1.0",
+  "minAppVersion": "1.11.4",
+  "description": "A local, read-only reflection companion proof.",
+  "author": "Invisible AI",
+  "isDesktopOnly": true
+}
