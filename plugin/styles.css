@@ -1,0 +1,4 @@
+.invisible-companion-nudge {
+  background-color: color-mix(in srgb, var(--interactive-accent) 18%, transparent);
+  border-bottom: 2px solid var(--interactive-accent);
+}
