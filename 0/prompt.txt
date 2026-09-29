@@ -1,0 +1,52 @@
+A previous agent produced the plan below to accomplish the user's task. Implement the plan in a fresh context. Treat the plan as the source of user intent, re-read files as needed, and carry the work through implementation and verification.
+
+# Validate HTTP vs. WebSocket before committing the transport
+
+## Summary
+
+Build the first plugin proof on bounded, debounced HTTP to a bare Flask service, but isolate transport behind one interface and run an explicit HTTP-vs-WebSocket benchmark before making WebSocket a product dependency. Both transports carry only complete, consented note updates and complete nudge decisions—never model tokens or partial AI output.
+
+## Implementation changes
+
+- Add `CompanionTransport.evaluate(request)` with shared request/decision types, stale-response rules, and metrics; implement HTTP first using Obsidian’s supported `requestUrl`.
+- Build the desktop-only plugin with explicit consent, folder scope, 8 KiB excerpts, token storage, pause/cooldown, revision tracking, and a read-only Vault boundary.
+- Implement a bare Flask `POST /v1/nudges:evaluate` endpoint: loopback-only, bounded JSON, bearer validation, deterministic fake decision, and silent failures.
+- Add the local nudge UI: a non-editing CodeMirror mark decoration for the returned range, accessible inline action, and side panel. It never steals focus and disappears when its note revision changes.
+- Add a test-only WebSocket transport and fake local server using `hello → ready → evaluate → decision` frames. The first frame authenticates; content frames before `ready` are rejected. This stays out of the shipping Flask proof unless the benchmark passes.
+
+## Transport validation gate
+
+Run identical fake-companion scenarios over HTTP and WebSocket: 100 save/idle updates, rapid edits, service restart, token revocation, and a 30-second idle period.
+
+Record p50/p95 from debounce expiry to validated decision, duplicates, stale results, unauthorized frames, queue growth, reconnect failures, and focus escapes.
+
+Adopt WebSocket only if it improves p95 by at least 100 ms or enables a required server-initiated event, with zero stale/duplicate/unauthorized/queue/focus failures. Otherwise retain HTTP and delete the WebSocket spike. The successful local spike already proves basic WebSocket feasibility: valid authentication produced `ready → nudge`; invalid authentication closed with `4001`.
+
+## Verification
+
+- Unit: consent/traversal, cooldown, ID mapping, excerpt bounds, stale decisions, and no vault-write API usage.
+- Flask: token/revocation, loopback/Host checks, malformed/oversized input, and silence on failure.
+- Integration: temporary vault sends one allowed bounded update, sends none for excluded/paused/revoked states, and renders only current decisions.
+- Manual blank-vault run: type/save/idle, observe highlight/panel, pause/dismiss, disconnect companion, and verify editor focus remains intact.
+
+## Assumptions
+
+- “Streaming” means timely incremental note-update delivery, not token streaming.
+- The initial shipped companion remains bare Flask; WebSocket requires additional lifecycle/runtime support and is contingent on the validation gate.
+- Cloud generation, Model Armor, and full pairing remain deferred.
+
+---
+
+test this? what are the steps needed? what are the steps to understand what would work?
+
+---
+
+We need to prove it in Obsidian! Do the necessary steps to create it in Obisidian plugin. But how would u test? u are in WSL2 environment, so im not sure if we can enable access to alow u to acess obisidian from windows
+
+---
+
+i wrote it, but no nudge? what panel?
+
+---
+
+i saw it! it works nicely! Create a PR

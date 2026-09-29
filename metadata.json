@@ -1,0 +1,51 @@
+{
+  "cli_version": "0.11.2",
+  "checkpoint_id": "01M3QGT0QF43GGHB945Z2QWKXT",
+  "strategy": "manual-commit",
+  "branch": "feat/obsidian-http-companion",
+  "checkpoints_count": 5,
+  "files_touched": [
+    ".gitignore",
+    "plugin/esbuild.config.mjs",
+    "plugin/manifest.json",
+    "plugin/package-lock.json",
+    "plugin/package.json",
+    "plugin/scripts/deploy-plugin.mjs",
+    "plugin/src/controller.ts",
+    "plugin/src/main.ts",
+    "plugin/src/nudge-decoration.ts",
+    "plugin/src/nudge-ui.ts",
+    "plugin/src/policy.ts",
+    "plugin/src/protocol.ts",
+    "plugin/src/scope.ts",
+    "plugin/src/settings.ts",
+    "plugin/src/transport.ts",
+    "plugin/styles.css",
+    "plugin/tests/core.test.ts",
+    "plugin/tsconfig.json",
+    "service/__init__.py",
+    "service/app.py",
+    "service/benchmark_transport.py",
+    "service/requirements.txt",
+    "service/tests/test_app.py",
+    "service/tests/test_websocket_spike.py",
+    "service/websocket_spike.py"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 125420,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 3992960,
+    "output_tokens": 36119,
+    "api_call_count": 69,
+    "subagent_tokens_complete": true
+  }
+}

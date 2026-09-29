@@ -1,0 +1,145 @@
+{
+  "cli_version": "0.11.2",
+  "checkpoint_id": "01M3QGT0QF43GGHB945Z2QWKXT",
+  "session_id": "01a0eee1-434d-75c3-ac8e-d25f712f7f12",
+  "strategy": "manual-commit",
+  "created_at": "2026-09-29T21:23:24.500746652Z",
+  "branch": "feat/obsidian-http-companion",
+  "checkpoints_count": 5,
+  "save_step_count": 5,
+  "files_touched": [
+    ".gitignore",
+    "plugin/esbuild.config.mjs",
+    "plugin/manifest.json",
+    "plugin/package-lock.json",
+    "plugin/package.json",
+    "plugin/scripts/deploy-plugin.mjs",
+    "plugin/src/controller.ts",
+    "plugin/src/main.ts",
+    "plugin/src/nudge-decoration.ts",
+    "plugin/src/nudge-ui.ts",
+    "plugin/src/policy.ts",
+    "plugin/src/protocol.ts",
+    "plugin/src/scope.ts",
+    "plugin/src/settings.ts",
+    "plugin/src/transport.ts",
+    "plugin/styles.css",
+    "plugin/tests/core.test.ts",
+    "plugin/tsconfig.json",
+    "service/__init__.py",
+    "service/app.py",
+    "service/benchmark_transport.py",
+    "service/requirements.txt",
+    "service/tests/test_app.py",
+    "service/tests/test_websocket_spike.py",
+    "service/websocket_spike.py"
+  ],
+  "agent": "Codex",
+  "model": "gpt-5.6-terra",
+  "turn_id": "999d7fc12108",
+  "compact_transcript_start": 0,
+  "token_usage": {
+    "input_tokens": 125420,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 3992960,
+    "output_tokens": 36119,
+    "api_call_count": 69,
+    "subagent_tokens_complete": true
+  },
+  "session_metrics": {
+    "turn_count": 5
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-09-29T21:23:24.381450952Z",
+    "agent_lines": 414,
+    "agent_removed": 0,
+    "human_added": 1940,
+    "human_modified": 428,
+    "human_removed": 0,
+    "total_committed": 2675,
+    "total_lines_changed": 2782,
+    "agent_percentage": 14.88138030194105,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 424,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".codex/hooks.json": 88,
+        ".opencode/plugins/entire.ts": 269,
+        "reports/obsidian-plugin-feasibility.html": 67
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 357,
+      "user_lines_removed": 0,
+      "agent_lines_added": 2528,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".codex/hooks.json": 88,
+        ".opencode/plugins/entire.ts": 269
+      }
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 357,
+      "user_lines_removed": 0,
+      "agent_lines_added": 2528,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".codex/hooks.json": 88,
+        ".opencode/plugins/entire.ts": 269
+      }
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 949,
+      "user_lines_removed": 107,
+      "agent_lines_added": 2571,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".codex/hooks.json": 88,
+        ".opencode/plugins/entire.ts": 269,
+        "plugin/package-lock.json": 592
+      },
+      "user_removed_per_file": {
+        "plugin/package-lock.json": 107
+      }
+    },
+    {
+      "checkpoint_number": 5,
+      "user_lines_added": 949,
+      "user_lines_removed": 107,
+      "agent_lines_added": 2578,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".codex/hooks.json": 88,
+        ".opencode/plugins/entire.ts": 269,
+        "plugin/package-lock.json": 592
+      },
+      "user_removed_per_file": {
+        "plugin/package-lock.json": 107
+      }
+    },
+    {
+      "checkpoint_number": 6,
+      "user_lines_added": 949,
+      "user_lines_removed": 107,
+      "agent_lines_added": 2578,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".codex/hooks.json": 88,
+        ".opencode/plugins/entire.ts": 269,
+        "plugin/package-lock.json": 592
+      },
+      "user_removed_per_file": {
+        "plugin/package-lock.json": 107
+      }
+    }
+  ]
+}
