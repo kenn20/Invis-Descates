@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Invisible AI: a quieter AI companion for Obsidian." />
+    <title>Invisible AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet" />
+    <style>
+      :root { --ink:#1c2621; --muted:#718078; --paper:#f8f8f4; --line:#dde1da; --accent:#d6f36f; --highlight:#e7f5bb; }
+      * { box-sizing:border-box; } body { margin:0; background:var(--paper); color:var(--ink); font-family:Manrope, sans-serif; } .wrap { width:min(1060px, calc(100% - 40px)); margin:auto; }
+      nav { height:82px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--line); } .brand { font-size:15px; font-weight:800; letter-spacing:-.055em; } .quiet { color:var(--muted); font:11px "DM Mono",monospace; letter-spacing:.08em; text-transform:uppercase; }
+      .intro { text-align:center; padding:100px 0 65px; } .eyebrow { color:#6d7b72; font:500 11px "DM Mono",monospace; letter-spacing:.12em; text-transform:uppercase; } h1 { max-width:790px; margin:20px auto; font-size:clamp(3.3rem,7vw,6.2rem); line-height:.95; letter-spacing:-.075em; } h1 em { font-family:"Playfair Display",serif; font-weight:600; } .intro p { max-width:505px; margin:25px auto 0; color:var(--muted); font-size:16px; line-height:1.7; }
+      .demo { margin:0 auto 110px; max-width:940px; border:1px solid #d4dad2; border-radius:12px; overflow:hidden; background:white; box-shadow:0 30px 80px #23332812; } .appbar { height:43px; display:flex; align-items:center; gap:7px; padding:0 16px; border-bottom:1px solid #edf0eb; background:#fbfcfa; } .orb { width:8px;height:8px;border-radius:50%;background:#d9ddd7; } .file { margin-left:9px; color:#8a958e; font:11px "DM Mono",monospace; } .editor { min-height:378px; padding:56px 11% 65px; position:relative; } .editor h2 { margin:0 0 27px; font-size:28px; letter-spacing:-.055em; } .editor p { max-width:650px; margin:0 0 18px; font-size:15px; line-height:1.85; color:#455149; } mark { background:linear-gradient(transparent 62%, var(--highlight) 62%); color:inherit; padding:0 2px; } .cursor { display:inline-block; width:1px; height:19px; background:#849087; vertical-align:-4px; margin-left:3px; }
+      .after { position:absolute; right:29px; bottom:23px; display:flex; align-items:center; gap:9px; color:#6f7c74; font:10px "DM Mono",monospace; } .after i { width:7px;height:7px;border-radius:50%;background:var(--accent); box-shadow:0 0 0 4px #f1f9d9; } .signal { position:absolute; right:11%; top:156px; width:166px; padding:11px 13px; background:#fbfdf4; border:1px solid #e2edbf; border-radius:6px; color:#657050; font-size:11px; line-height:1.45; opacity:0; transform:translateY(4px); animation:appear 1s ease 1.7s forwards; } .signal b { color:#425035; font-weight:700; } @keyframes appear { to { opacity:1; transform:translateY(0); } }
+      .principles { display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid var(--line); } .principle { padding:32px 28px 42px 0; } .principle + .principle { border-left:1px solid var(--line); padding-left:28px; } .principle span { color:#99a49c; font:11px "DM Mono",monospace; } .principle h3 { margin:38px 0 10px; font-size:18px; letter-spacing:-.045em; } .principle p { max-width:260px; margin:0; color:var(--muted); font-size:13px; line-height:1.65; }
+      footer { margin-top:28px; padding:28px 0 35px; border-top:1px solid var(--line); color:#8c9690; font:10px "DM Mono",monospace; letter-spacing:.05em; } @media(max-width:700px){.intro{padding:72px 0 48px}.editor{padding:42px 28px 88px}.signal{display:none}.principles{grid-template-columns:1fr}.principle,.principle+.principle{padding:28px 0;border-left:0;border-bottom:1px solid var(--line)}.demo{margin-bottom:70px} }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <nav><div class="brand">INVISIBLE AI</div><div class="quiet">quiet by default</div></nav>
+      <section class="intro">
+        <div class="eyebrow">A quieter companion for Obsidian</div>
+        <h1>Write freely.<br>Reflect <em>later.</em></h1>
+        <p>Invisible AI stays out of your way while you think. Only after the moment has passed, it quietly marks a place worth returning to.</p>
+      </section>
+      <section class="demo" aria-label="A demonstration of Invisible AI in an Obsidian-like editor">
+        <div class="appbar"><i class="orb"></i><i class="orb"></i><i class="orb"></i><span class="file">Untitled note.md</span></div>
+        <div class="editor">
+          <h2>Notes from today</h2>
+          <p>I keep circling around the same launch problem. The product is nearly there, but every decision seems to create two more. I think the real issue might be that <mark>I haven’t said what I’m actually optimizing for.</mark></p>
+          <p>Tomorrow: make the trade-offs explicit, then decide what not to build.<span class="cursor"></span></p>
+          <div class="signal"><b>A thought, for later.</b><br>There may be an unstated goal here.</div>
+          <div class="after"><i></i>NOTICED AFTER WRITING</div>
+        </div>
+      </section>
+      <section class="principles">
+        <article class="principle"><span>01</span><h3>No prompt required</h3><p>You do not have to decide when to ask for help. Keep writing; the companion pays attention in the background.</p></article>
+        <article class="principle"><span>02</span><h3>Never breaks flow</h3><p>No chat window, no modal, no response competing for your attention. Your work remains the foreground.</p></article>
+        <article class="principle"><span>03</span><h3>Small, precise signals</h3><p>When there is a useful observation, it arrives as a subtle highlight you can revisit on your own terms.</p></article>
+      </section>
+      <footer>INVISIBLE AI · THE BEST TECHNOLOGY IS THE ONE YOU DON’T HAVE TO THINK ABOUT.</footer>
+    </main>
+  </body>
+</html>
