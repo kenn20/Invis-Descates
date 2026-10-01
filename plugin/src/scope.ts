@@ -25,9 +25,12 @@ export class ConsentScope {
 }
 
 export class NoteIds {
-  private readonly ids = new Map<string, string>();
+  private readonly ids: Map<string, string>;
+  constructor(initial: Record<string, string> = {}, private readonly changed: (ids: Record<string, string>) => void = () => {}) { this.ids = new Map(Object.entries(initial)); }
+  existing(path: string): string | undefined { return this.ids.get(path); }
+  private persist(): void { this.changed(Object.fromEntries(this.ids)); }
   idFor(path: string): string { return this.ids.get(path) ?? this.create(path); }
-  rename(from: string, to: string): void { const id = this.ids.get(from); if (id) { this.ids.delete(from); this.ids.set(to, id); } }
-  remove(path: string): void { this.ids.delete(path); }
-  private create(path: string): string { const id = crypto.randomUUID(); this.ids.set(path, id); return id; }
+  rename(from: string, to: string): void { const id = this.ids.get(from); if (id) { this.ids.delete(from); this.ids.set(to, id); this.persist(); } }
+  remove(path: string): void { this.ids.delete(path); this.persist(); }
+  private create(path: string): string { const id = crypto.randomUUID(); this.ids.set(path, id); this.persist(); return id; }
 }

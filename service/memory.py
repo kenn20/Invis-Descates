@@ -4,7 +4,7 @@ from __future__ import annotations
 import math
 from uuid import uuid4
 
-from sqlalchemy import Column, ForeignKey, Integer, JSON, String, Table, Text, delete, insert, select, update
+from sqlalchemy import BigInteger, Column, ForeignKey, Integer, JSON, String, Table, Text, delete, insert, select, update
 from sqlalchemy.exc import IntegrityError
 
 from service.identity import Identity, metadata, users
@@ -16,7 +16,7 @@ memories = Table("memories", metadata,
     Column("collection_id", ForeignKey(collections.c.id), primary_key=True),
     Column("vault_id", String(36), primary_key=True),
     Column("note_id", String(36), primary_key=True),
-    Column("revision", Integer, nullable=False),
+    Column("revision", BigInteger, nullable=False),
     Column("content", Text, nullable=False),
     Column("vector", JSON, nullable=False))
 
