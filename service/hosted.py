@@ -7,6 +7,7 @@ from flask import Flask, Response, g, jsonify, request
 
 from service.app import MAX_BODY_BYTES, _bearer, _decision, _valid_request
 from service.identity import IdentityStore
+from service.memory_api import register_memory
 
 
 def create_hosted_app(database_url: str, public_origin: str, session_secret: str) -> Flask:
@@ -68,4 +69,5 @@ def create_hosted_app(database_url: str, public_origin: str, session_secret: str
         store.revoke(g.identity)
         return Response(status=204)
 
+    register_memory(app, store)
     return app
