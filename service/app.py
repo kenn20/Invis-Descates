@@ -62,16 +62,16 @@ def _valid_request(payload: Any) -> bool:
             return False
     if not isinstance(payload["revision"], int) or isinstance(payload["revision"], bool) or payload["revision"] < 1:
         return False
-    if payload["trigger"] not in TRIGGERS or not isinstance(payload["excerpt"], str):
+    if not isinstance(payload["trigger"], str) or payload["trigger"] not in TRIGGERS or not isinstance(payload["excerpt"], str):
         return False
     if len(payload["excerpt"].encode("utf-8")) > MAX_EXCERPT_BYTES:
         return False
     try:
         datetime.fromisoformat(payload["createdAt"].replace("Z", "+00:00"))
-    except (TypeError, ValueError):
+    except (TypeError, ValueError, AttributeError):
         return False
     signals = payload["signals"]
-    if set(signals) != {"challengeScore", "reflectionDepth", "daysSinceUpdate", "idleMs"}:
+    if not isinstance(signals, dict) or set(signals) != {"challengeScore", "reflectionDepth", "daysSinceUpdate", "idleMs"}:
         return False
     return (
         all(isinstance(signals[k], (int, float)) and not isinstance(signals[k], bool) and 0 <= signals[k] <= 1 for k in ("challengeScore", "reflectionDepth"))
