@@ -1,0 +1,12 @@
+.git
+.env*
+plugin
+.artifacts
+.claude
+.omo
+.rocketride
+specs
+default.pipe
+service/tests
+service/websocket_spike.py
+service/benchmark_transport.py

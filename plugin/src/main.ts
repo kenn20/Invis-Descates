@@ -6,7 +6,7 @@ import { ConsentScope, NoteIds } from "./scope";
 import { EvaluationController } from "./controller";
 import { NudgeDecision } from "./protocol";
 import { getNudgeView } from "./nudge-ui";
-import { LOCAL_ORIGIN, MemoryClient, PairingClient, serverOrigin } from "./cloud";
+import { LOCAL_ORIGIN, MemoryClient, PairingClient, serverOrigin, localInstallationId } from "./cloud";
 import { MemorySync } from "./memory-sync";
 import { MemoryModal } from "./memory-modal";
 
@@ -26,6 +26,7 @@ export default class InvisibleCompanionPlugin extends Plugin {
   async onload(): Promise<void> {
     this.settings = { ...defaults(), ...(await this.loadData() as Partial<CompanionSettings> | null) };
     this.settings.serverUrl = serverOrigin(this.settings.serverUrl);
+    this.settings.installationId = localInstallationId(this.settings.vaultId, this.app.secretStorage);
     this.restoreScope();
     this.noteIds = new NoteIds(this.settings.noteIds, ids => { this.settings.noteIds = ids; void this.saveData(this.settings); });
     this.registerView(NUDGE_VIEW, leaf => new NudgeView(leaf));

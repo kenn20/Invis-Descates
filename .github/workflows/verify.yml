@@ -8,12 +8,25 @@ permissions:
 jobs:
   service:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: gate
+          POSTGRES_PASSWORD: gate-ci-test
+          POSTGRES_DB: companion_gate
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U gate -d companion_gate"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      TEST_DATABASE_URL: postgresql+psycopg://gate:gate-ci-test@localhost:5432/companion_gate
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: pip install -r service/requirements.txt pytest
+      - run: pip install -r service/requirements.lock pytest==9.1.1
       - run: python -m pytest service/tests -q
   plugin:
     runs-on: ubuntu-latest

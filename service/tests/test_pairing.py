@@ -35,7 +35,7 @@ def ready(app, p):
 def browser_login(app, c, p):
     with c.session_transaction(base_url=BASE) as s:
         s["pairing_code"] = p["userCode"]
-    app.extensions["google"].authorize_access_token = lambda: {"userinfo": {"iss": "https://accounts.google.com", "sub": "google-a"}}
+    app.extensions["google"].authorize_access_token = lambda: {"id_token": "verified-by-separate-oidc-tests", "userinfo": {"iss": "https://accounts.google.com", "sub": "google-a"}}
     return c.get("/auth/google/callback", base_url=BASE)
 
 
@@ -85,7 +85,7 @@ def test_no_approval_without_identity_and_wrong_issuer_fails():
     with c.session_transaction(base_url=BASE) as s:
         s["pairing_code"] = p["userCode"]
     assert c.get("/auth/approve", base_url=BASE).status_code == 401
-    app.extensions["google"].authorize_access_token = lambda: {"userinfo": {"iss": "evil", "sub": "google-a"}}
+    app.extensions["google"].authorize_access_token = lambda: {"id_token": "verified-by-separate-oidc-tests", "userinfo": {"iss": "evil", "sub": "google-a"}}
     assert c.get("/auth/google/callback", base_url=BASE).status_code == 401
     assert poll(c, p).status_code == 202
 

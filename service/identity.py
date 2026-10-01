@@ -22,6 +22,7 @@ vaults = Table("vaults", metadata,
 devices = Table("devices", metadata,
     Column("id", String(36), primary_key=True),
     Column("user_id", ForeignKey("users.id"), nullable=False),
+    Column("name", String(80), nullable=False, default="Obsidian"),
     Column("installation_id", String(36), nullable=False),
     Column("vault_id", ForeignKey("vaults.id"), nullable=False),
     Column("token_hash", String(64), nullable=False, unique=True),
@@ -43,7 +44,9 @@ class Identity:
 
 class IdentityStore:
     def __init__(self, database_url: str):
-        options = {"pool_pre_ping": True}
+        options = {"pool_pre_ping": True, "hide_parameters": True}
+        if database_url.startswith("postgresql"):
+            options.update(pool_size=2, max_overflow=0, pool_timeout=5, connect_args={"connect_timeout": 5})
         if database_url == "sqlite://":
             options.update(poolclass=StaticPool, connect_args={"check_same_thread": False})
         self.engine = create_engine(database_url, **options)
@@ -68,15 +71,17 @@ class IdentityStore:
             with self.engine.connect() as conn:
                 return conn.execute(select(users.c.id).where(users.c.google_subject == subject)).scalar_one()
 
-    def issue_device(self, conn, user_id: str, installation_id: str, vault_id: str):
+    def issue_device(self, conn, user_id: str, installation_id: str, vault_id: str, name="Obsidian"):
         owner = conn.execute(select(vaults.c.user_id).where(vaults.c.id == vault_id)).scalar_one_or_none()
         if owner is not None and owner != user_id:
             raise PermissionError("Ownership mismatch")
         if owner is None:
             conn.execute(insert(vaults).values(id=vault_id, user_id=user_id))
+        conn.execute(update(devices).where(devices.c.user_id == user_id,
+            devices.c.installation_id == installation_id, devices.c.vault_id == vault_id).values(revoked=True))
         token = secrets.token_urlsafe(32)
         device_id = str(uuid4())
-        conn.execute(insert(devices).values(id=device_id, user_id=user_id,
+        conn.execute(insert(devices).values(id=device_id, user_id=user_id, name=name,
             installation_id=installation_id, vault_id=vault_id, token_hash=digest(token),
             expires_at=int(time.time()) + 90 * 86400, revoked=False))
         return token, device_id

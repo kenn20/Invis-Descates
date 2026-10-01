@@ -48,3 +48,11 @@ export class MemoryClient {
     return result.answer;
   }
 }
+
+/** A synced vault's installation ID must not make two physical devices share tokens. */
+export function localInstallationId(vaultId: string, storage: { getSecret(id: string): string | null | undefined; setSecret(id: string, value: string): void }): string {
+  const key = `invisible-ai-companion-installation:${vaultId}`;
+  const existing = storage.getSecret(key);
+  if (existing && /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(existing)) return existing;
+  const id = crypto.randomUUID(); storage.setSecret(key, id); return id;
+}
