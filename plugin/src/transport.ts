@@ -5,13 +5,13 @@ export type RequestUrl = (options: { url: string; method: "POST"; headers: Recor
 
 export class HttpTransport implements CompanionTransport {
   readonly metrics: TransportMetrics = emptyMetrics();
-  constructor(private readonly requestUrl: RequestUrl, private readonly endpoint: string, private readonly token: () => string | undefined) {}
+  constructor(private readonly requestUrl: RequestUrl, private readonly endpoint: string | (() => string), private readonly token: () => string | undefined) {}
   async evaluate(request: EvaluateRequest): Promise<NudgeDecision | undefined> {
     const started = performance.now(); this.metrics.sent++;
     const token = this.token();
     if (!token) { this.metrics.unauthorized++; return undefined; }
     try {
-      const response = await this.requestUrl({ url: this.endpoint, method: "POST", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }, body: JSON.stringify(request), throw: false });
+      const response = await this.requestUrl({ url: typeof this.endpoint === "string" ? this.endpoint : this.endpoint(), method: "POST", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }, body: JSON.stringify(request), throw: false });
       if (response.status === 401) { this.metrics.unauthorized++; return undefined; }
       if (response.status < 200 || response.status >= 300 || !isDecision(response.json)) { this.metrics.failures++; return undefined; }
       this.metrics.received++; this.metrics.latenciesMs.push(performance.now() - started);
