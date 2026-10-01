@@ -10,7 +10,8 @@ from service.identity import IdentityStore
 from service.memory_api import register_memory
 
 
-def create_hosted_app(database_url: str, public_origin: str, session_secret: str) -> Flask:
+def create_hosted_app(database_url: str, public_origin: str, session_secret: str, *, google_client_id: str | None = None,
+                      google_client_secret: str | None = None) -> Flask:
     origin = urlsplit(public_origin)
     if (origin.scheme != "https" or not origin.hostname or origin.path not in ("", "/")
             or origin.query or origin.fragment or origin.username or origin.password):
@@ -69,5 +70,8 @@ def create_hosted_app(database_url: str, public_origin: str, session_secret: str
         store.revoke(g.identity)
         return Response(status=204)
 
+    if google_client_id is not None or google_client_secret is not None:
+        from service.pairing import register_google_pairing
+        register_google_pairing(app, store, google_client_id, google_client_secret)
     register_memory(app, store)
     return app

@@ -3,3 +3,4 @@ websockets>=10.4,<11
 SQLAlchemy>=2.0,<3
 psycopg[binary]>=3.2,<4
 requests>=2.32,<3
+Authlib>=1.6,<2
