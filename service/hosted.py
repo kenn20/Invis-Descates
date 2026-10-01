@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from urllib.parse import urlsplit
+from werkzeug.exceptions import HTTPException
 
 from flask import Flask, Response, g, jsonify, request
 
@@ -50,6 +51,14 @@ def create_hosted_app(database_url: str, public_origin: str, session_secret: str
     @app.errorhandler(413)
     def oversized(_):
         return Response(status=413)
+
+    @app.errorhandler(Exception)
+    def private_failure(error):
+        if isinstance(error, HTTPException):
+            return Response(status=error.code)
+        # Database/provider exceptions can contain note text or credential details.
+        app.logger.error("Hosted request failed")
+        return Response(status=500)
 
     @app.get("/healthz")
     def health():

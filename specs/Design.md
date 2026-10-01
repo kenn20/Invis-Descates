@@ -1,5 +1,9 @@
 # Invisible AI Companion for Obsidian
 
+## Central beta extension
+
+The hosted beta is specified in [Central-Deployment.md](Central-Deployment.md). It supersedes this document’s local-only, single-user and no-persistence scope for hosted deployments. Folder consent, read-only vault access and credential/content log redaction remain required. The local proof remains available separately. Model Armor and RocketRide behavior described below has not been implemented or verified by the hosted beta.
+
 ## Document Role
 
 This is the product, security, architecture, interaction, and acceptance contract for the first local release. Visual styling must use native Obsidian components and CSS variables; a separate visual token system is unnecessary until the implementation needs custom primitives.

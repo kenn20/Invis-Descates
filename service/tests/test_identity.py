@@ -66,3 +66,22 @@ def test_hosted_transport_and_malformed_payload_fail_closed():
     response = c.get("/healthz", base_url="https://companion.example")
     assert response.headers["Cache-Control"] == "no-store"
     assert "Access-Control-Allow-Origin" not in response.headers
+
+
+def test_unexpected_failure_never_logs_content_or_credentials(caplog, monkeypatch):
+    app, store, token = setup_app()
+    monkeypatch.setattr(store, "authenticate", lambda _: (_ for _ in ()).throw(RuntimeError("private-note-sentinel " + token)))
+    response = call(app.test_client(), "/v1/nudges:evaluate", token, payload=body())
+    assert response.status_code == 500
+    assert "private-note-sentinel" not in caplog.text and token not in caplog.text
+    assert not response.data
+
+
+def test_repairing_rotates_token_without_changing_account_or_vault():
+    app, store, old = setup_app()
+    identity = store.authenticate(old)
+    with store.engine.begin() as conn:
+        new, _ = store.issue_device(conn, identity.user_id, identity.installation_id, identity.vault_id)
+    assert store.authenticate(old) is None
+    assert store.authenticate(new).user_id == identity.user_id
+    assert store.authenticate(new).vault_id == identity.vault_id

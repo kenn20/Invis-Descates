@@ -69,3 +69,12 @@ it("indexes independently of nudge limits, with bounds and revocable consent", a
   enabled = true; sync.schedule("allowed/a.md", "private"); sync.cancel(); await vi.advanceTimersByTimeAsync(1200); expect(upload).toHaveBeenCalledTimes(1);
   vi.useRealTimers();
 });
+
+it("keeps installation identity local when vault settings are synced", async () => {
+  const { localInstallationId } = await import("../src/cloud");
+  const device = () => { const values = new Map<string, string>(); return { getSecret: (key: string) => values.get(key), setSecret: (key: string, value: string) => values.set(key, value) }; };
+  const a = device(), b = device(), vault = crypto.randomUUID();
+  const first = localInstallationId(vault, a);
+  expect(localInstallationId(vault, a)).toBe(first);
+  expect(localInstallationId(vault, b)).not.toBe(first);
+});

@@ -35,7 +35,11 @@ def cosine(a, b):
 
 class MemoryStore:
     def __init__(self, identity_store):
-        self.engine = identity_store.engine
+        self.identity_store = identity_store
+
+    @property
+    def engine(self):
+        return self.identity_store.engine
 
     def collection(self, user_id):
         try:

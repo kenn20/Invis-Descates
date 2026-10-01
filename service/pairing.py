@@ -79,7 +79,7 @@ class PairingStore:
             row = conn.execute(select(pairings).where(pairings.c.secret_hash == digest(secret))).mappings().one()
             if row["status"] == "pending":
                 return None, 202
-            token, device_id = self.identity.issue_device(conn, row["user_id"], row["installation_id"], row["vault_id"])
+            token, device_id = self.identity.issue_device(conn, row["user_id"], row["installation_id"], row["vault_id"], row["name"])
             conn.execute(update(pairings).where(pairings.c.secret_hash == digest(secret)).values(status="consumed"))
             return {"token": token, "deviceId": device_id}, 200
 
@@ -148,7 +148,7 @@ def register_google_pairing(app, store, client_id, client_secret):
             # expiry and saved nonce before returning userinfo.
             token = google.authorize_access_token()
             info = token.get("userinfo")
-            if (not info or info.get("iss") not in {"https://accounts.google.com", "accounts.google.com"}
+            if (not token.get("id_token") or not info or info.get("iss") not in {"https://accounts.google.com", "accounts.google.com"}
                     or not pairing.pending(session.get("pairing_code", ""))):
                 raise ValueError()
             session["user_id"] = store.user_for_google(info["sub"])
